@@ -18,5 +18,11 @@
   },
   "repository": {
     "url": "https://github.com/yfrans/elysia-http-error.git"
-  }
+  },
+  "keywords": [
+    "bun",
+    "elysia",
+    "http",
+    "error"
+  ]
 }
