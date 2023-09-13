@@ -1,0 +1,22 @@
+{
+  "name": "elysia-http-error",
+  "version": "1.0.0",
+  "description": "Easy http error handling in Elysia.",
+  "author": {
+    "name": "Yossi Frances"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "elysia": "^0.6.23"
+  },
+  "repository": {
+    "url": "https://github.com/yfrans/elysia-http-error.git"
+  }
+}
