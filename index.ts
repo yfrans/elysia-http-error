@@ -66,8 +66,9 @@ class HttpError extends Error {
   }
 }
 
-export const httpErrorDecorator = (app: Elysia) =>
-  app.decorate("HttpError", HttpError);
+export const httpErrorDecorator = new Elysia({
+  name: "elysia-http-error-decorator",
+}).decorate("HttpError", HttpError);
 
 interface HttpErrorConstructor {
   customFormatter?: (error: HttpError) => any;
