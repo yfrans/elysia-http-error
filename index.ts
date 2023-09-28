@@ -1,12 +1,16 @@
 import Elysia from "elysia";
 
 class HttpError extends Error {
-  private constructor(public message: string, public statusCode: number) {
+  private constructor(
+    public message: string,
+    public statusCode: number,
+    public errorData: any = undefined
+  ) {
     super(message);
   }
 
-  public static BadRequest(message?: string) {
-    return new HttpError(message || "Bad Request", 400);
+  public static BadRequest(message?: string, errorData?: any) {
+    return new HttpError(message || "Bad Request", 400, errorData);
   }
 
   public static Unauthorized(message?: string) {
@@ -25,8 +29,8 @@ class HttpError extends Error {
     return new HttpError(message || "Method Not Allowed", 405);
   }
 
-  public static Conflict(message?: string) {
-    return new HttpError(message || "Conflict", 409);
+  public static Conflict(message?: string, errorData?: any) {
+    return new HttpError(message || "Conflict", 409, errorData);
   }
 
   public static UnsupportedMediaType(message?: string) {
@@ -62,17 +66,38 @@ class HttpError extends Error {
   }
 }
 
-export const httpErrorDecorator = () => (app: Elysia) =>
+export const httpErrorDecorator = (app: Elysia) =>
   app.decorate("HttpError", HttpError);
 
-export const httpError = () => (app: Elysia) =>
-  app
-    .addError({
-      HTTP_ERROR: HttpError,
+interface HttpErrorConstructor {
+  customFormatter?: (error: HttpError) => any;
+  returnStringOnly?: boolean;
+}
+
+export const httpError = (
+  params: HttpErrorConstructor = {
+    customFormatter: undefined,
+    returnStringOnly: false,
+  }
+) =>
+  new Elysia({ name: "elysia-http-error" })
+    .error({
+      ELYSIA_HTTP_ERROR: HttpError,
     })
     .onError(({ code, error, set }) => {
-      if (code === "HTTP_ERROR") {
+      if (code === "ELYSIA_HTTP_ERROR") {
         set.status = error.statusCode;
-        return error.message;
+        if (params.customFormatter) {
+          return params.customFormatter(error);
+        }
+        if (params.returnStringOnly) {
+          return error.message;
+        }
+        return {
+          error: true,
+          code: error.statusCode,
+          message: error.message,
+          data: error.errorData,
+        };
       }
     });
