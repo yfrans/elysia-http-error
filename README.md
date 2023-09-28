@@ -46,6 +46,21 @@ const app = new Elysia().use(httpErrorDecorator).get("/", ({ HttpError }) => {
 });
 ```
 
+The HttpError constructor receive the following parameters:
+
+```ts
+error: string (error message, optional)
+errorData: any (more error details, optional)
+```
+
+For example, when using OTP validation and the user is asking for a new OTP while the OTP is still valid, the error can contain the message and the time left for the OTP so the client can display a proper message and sync the time displayed to the user:
+
+```ts
+throw HttpError.Conflict("OTP is still valid", {
+  timeLeft: otpExpireTime - Date.now(),
+});
+```
+
 # Some important notes
 
 The plugin initializer must be called when initializing Elysia and before any other handler that use this plugin.

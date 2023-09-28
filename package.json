@@ -1,6 +1,6 @@
 {
   "name": "elysia-http-error",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Easy http error handling in Elysia.",
   "author": {
     "name": "Yossi Frances"
