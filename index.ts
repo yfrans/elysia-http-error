@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 
-class HttpError extends Error {
-  private constructor(
+export class HttpError extends Error {
+  public constructor(
     public message: string,
     public statusCode: number,
     public errorData: any = undefined
