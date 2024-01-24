@@ -17,6 +17,10 @@ export class HttpError extends Error {
     return new HttpError(message || "Unauthorized", 401, errorData);
   }
 
+  public static PaymentRequired(message?: string, errorData?: any) {
+    return new HttpError(message || "Payment Required", 402, errorData);
+  }
+
   public static Forbidden(message?: string, errorData?: any) {
     return new HttpError(message || "Forbidden", 403, errorData);
   }
