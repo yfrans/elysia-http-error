@@ -89,7 +89,7 @@ export const httpError = (
     .error({
       ELYSIA_HTTP_ERROR: HttpError,
     })
-    .onError(({ code, error, set }) => {
+    .onError({as: 'scoped'}, ({ code, error, set }) => {
       if (code === "ELYSIA_HTTP_ERROR") {
         set.status = error.statusCode;
         if (params.customFormatter) {
